@@ -1,0 +1,140 @@
+
+{
+
+
+   "EMAIL"      :
+   {
+      "DEVELOPER"     : "support@atajo.co.za",
+      "SUPPORT"       : "support@atajo.co.za",
+      "ADMINISTRATOR" : "support@atajo.co.za"
+   },
+
+   "VERSIONS"   :
+   {
+    	"DEV" : {  "ID" : "1.0", "DEBUG":true,  "COREVERSION" : "1.0" },
+      "QAS" : { "ID"  : "1.0", "DEBUG":true,  "COREVERSION" : "1.0" },
+      "PRD" : { "ID"  : "1.0", "DEBUG":false, "COREVERSION" : "1.0" }
+   },
+
+   "DEVICE" :
+   {
+
+      "ALLOW"          : {
+
+          "WP8"     : false,
+          "ANDROID" : true,
+          "IOS"     : true,
+          "BB10"    : false,
+          "WEB"     : false
+      },
+
+       "enableLocation"          : true,
+       "enablePushNotifications" : false
+
+   },
+
+   "SETTINGS" :
+   {
+      "sendCredentials" : true,
+
+      "pinLock" :
+            {
+              "enabled" : false,
+              "timeout" : 2
+            },
+
+      "jobQueue" :
+            {
+              "visible"    : true,
+              "maxJobs"    : 0,
+              "jobLife"    : 0,
+              "dataLife"   : 0,
+              "showBubble" : true
+            },
+
+            "login": {
+
+                        "enabled"  : false,
+                        "heading"  : "Login",
+                        "fields": [
+                            {
+                                "name": "username",
+                                "label": "Username",
+                                "type": "text"
+                            },
+                            {
+                                "name": "password",
+                                "label": "Password",
+                                "type": "password"
+                            }
+                        ]
+
+                    },
+
+
+      "menuIcon"       : "&#61497;",
+      "jobQueueIcon"   : "&#xf019;"
+
+
+    },
+
+    "LOADER"     :
+        {
+      "lines"     : 22,
+      "length"    : 3,
+      "width"     : 3,
+      "radius"    : 20,
+      "corners"   : 1,
+      "rotate"    : 0,
+      "direction" : 1,
+      "color"     : "#fff",
+      "speed"     : 1.2,
+      "trail"     : 30,
+      "shadow"    : false,
+      "hwaccel"   : true,
+      "className" : "spinner",
+      "zIndex"    :  2e9,
+      "top"       : "50%",
+      "left"      : "50%"
+      },
+
+
+    "LAYOUT" : {
+        "small": {
+            "example": {
+                "menu": true,
+                "icon": "&#xf004;",
+                "label": "Example Card",
+                "subtext": "A starter card to get you familiar",
+                "views": ["example"],
+                "default": true
+            }
+
+
+
+
+
+
+        },
+        "large": {
+            "example": {
+                "menu": true,
+                "icon": "&#xf004;",
+                "label": "Example Card",
+                "subtext": "A starter card to get you familiar",
+                "views": ["example"],
+                "default": true
+            }
+
+        }
+    },
+    "SERVICES":
+        [
+
+
+        ],
+   "ACTIONS":
+        [
+
+        ]
+}

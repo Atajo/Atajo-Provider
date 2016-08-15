@@ -1,0 +1,154 @@
+<!-- This is what would normally be the inner of the <body> tag in index.html -->
+<aui-nav-bar class="dark-red">
+    <aui-nav-back-button>
+    </aui-nav-back-button>
+</aui-nav-bar>
+<!--
+      The views will be rendered in the <aui-nav-view> directive below
+      Templates are in the /templates folder (but you could also
+      have templates inline in this html file if you'd like).
+    -->
+<aui-nav-view></aui-nav-view>
+<script type="text/ng-template" id="dashboard.html">
+    <aui-view>
+        <aui-nav-title class="icon-title">
+            <img src="img/wsu_icon.png">
+        </aui-nav-title>
+        <aui-content>
+            <div class="dashboard" ng-show="loading">
+                <br /><br /><br />
+                <center>LOADING</center>
+            </div>
+            <div class="dashboard" ng-show="!loading">
+                <!--<div class="ribyts">
+                    <p class="value">{{trips.ribyts}}</p>
+                    <p class="label">TOTAL RIBYTS</p>
+                </div>-->
+                <div class="stats">
+                    <div class="stat-item-container">
+                        <img src="img/trips_icon.png" alt="">
+                        <p class="value">{{trips.total}}</p>
+                        <p class="label">TOTAL TRIPS</p>
+                    </div>
+                    <div class="stat-item-container">
+                        <img src="img/ks_icon.png" alt="">
+                        <p class="value">{{trips.distance}}</p>
+                        <p class="label">TOTAL KMS</p>
+                    </div>
+                    <div class="stat-item-container">
+                        <img src="img/time_icon.png" alt="">
+                        <p class="value">{{trips.time}}</p>
+                        <p class="label">TOTAL TIME</p>
+                    </div>
+                </div>
+                <div class="version">
+                    <p>
+                        App: {{version.app}} <br> Release: {{version.release}} <br> Code: {{version.code}}
+                    </p>
+                </div>
+                <a class="dash-button" ng-click="beginTrip()">
+                    <img src="img/begintrip_icon.png" class="icon"></span>
+                    <span class="label">BEGIN TRIP</span>
+                </a>
+            </div>
+        </aui-content>
+    </aui-view>
+</script>
+<script type="text/ng-template" id="login.html">
+    <aui-view class="login" hide-nav-bar="true">
+        <aui-content>
+            <div class="login-container">
+                <img ng-src="img/wsu_logo.png">
+                <p>Sign in to begin tracking your journey to university using your student account</p>
+                <div class="inputs">
+                    <input type="text" placeholder="User ID" ng-model="userCredentials.userId" />
+                </div>
+                <a href="" ng-click="login()" class="myButton">{{buttonText}}</a>
+            </div>
+        </aui-content>
+    </aui-view>
+</script>
+<script type="text/ng-template" id="mode.html">
+    <aui-view title="MODE OF TRANSPORT">
+        <aui-content>
+            <div class="mode">
+                <div class="mode-item bicycle" ng-click="startTracking('bicycle')">
+                    <p>BICYCLE</p>
+                </div>
+                <div class="mode-item bus" ng-click="startTracking('bus')">
+                    <p>BUS</p>
+                </div>
+                <div class="mode-item ferry" ng-click="startTracking('ferry')">
+                    <p>FERRY</p>
+                </div>
+                <div class="mode-item light-rail" ng-click="startTracking('lightrail')">
+                    <p>LIGHT RAIL</p>
+                </div>
+                <div class="mode-item motorbike" ng-click="startTracking('motorbike')">
+                    <p>MOTORBIKE</p>
+                </div>
+                <div class="mode-item pvtcar" ng-click="startTracking('carpvt')">
+                    <p>PRIVATE CAR</p>
+                </div>
+                <div class="mode-item sharecar" ng-click="startTracking('carshare')">
+                    <p>SHARE CAR</p>
+                </div>
+                <div class="mode-item taxi" ng-click="startTracking('taxi')">
+                    <p>TAXI</p>
+                </div>
+                <div class="mode-item rail" ng-click="startTracking('rail')">
+                    <p>TRAIN</p>
+                </div>
+                <div class="mode-item walk" ng-click="startTracking('walk')">
+                    <p>WALK</p>
+                </div>
+            </div>
+        </aui-content>
+    </aui-view>
+</script>
+<script type="text/ng-template" id="track.html">
+    <aui-view hide-nav-bar="true">
+        <aui-content>
+            <div class="track">
+                <div class="counter-overlay" ng-show="countingdown">
+                    <p ng-show="!waiting" class="counter">{{count}}</p>
+                    <p ng-show="waiting" class="counter">...</p>
+                </div>
+                <div class="main">
+                    <img src="img/wsu_icon.png" alt="">
+                    <p class="k-counter">{{tripDistance}}</p>
+                    <p class="label">KILOMETRES</p>
+
+                    <div class="mode-time-container">
+                        <div class="mt-item">
+                            <img ng-src="img/{{modeObject.icon}}.png" alt="">
+                            <p class="value">{{modeObject.label}}</p>
+                        </div>
+                        <div class="mt-item">
+                            <img src="img/time_icon_white.png" alt="">
+                            <p class="value">{{getFromattedTime()}}</p>
+                        </div>
+                    </div>
+                    <a href="" ng-click="pause()" class="pause"></a>
+
+                </div>
+                <div class="controls-overlay" ng-show="paused && !countingdown">
+                    <div class="control-container">
+                        <div class="btn-container">
+                            <div class="btn" ng-click="end()">
+                                <img src="img/end_icon.png" alt="">
+                                <p>END</p>
+                            </div>
+                            <div class="btn" ng-click="resume()">
+                                <img src="img/play_icon.png" alt="">
+                                <p>RESUME</p>
+                            </div>
+                        </div>
+                        <a ng-click="changeMode()" class="modechange">CHANGE MODE OF TRANSPORT <i class="fa fa-chevron-right"></i></a>
+                    </div>
+                </div>
+                <p class="counter">{{udCounter}}</p>
+            </div>
+        </aui-content>
+    </aui-view>
+</script>
