@@ -1,12 +1,8 @@
-var _log = require('../provider/lib/log');
-
-
 _onConnect = {
 
-    evt : function()
-     {
-        _log.i("HOOK : onConnect");
-     }
+    evt: function() {
+        atajo.log.i("HOOK : onConnect");
+    }
 
 
 };

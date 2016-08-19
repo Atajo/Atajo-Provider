@@ -4,11 +4,7 @@ var fs = require('fs');
 var path = require('path');
 var crypto = require('crypto');
 
-
-//LIB
-var _log = require('./log');
-
-var _base = {
+module.exports = {
 
     FRAMEWORK: false,
     BASE_DIR: null,
@@ -43,8 +39,8 @@ var _base = {
         _.FRAMEWORK = version.BASELIB;
 
 
-        //_log.n();
-        //_log.i("[ BUILDING BASE PACKAGES ]");
+        //atajo.log.n();
+        //atajo.log.i("[ BUILDING BASE PACKAGES ]");
 
         resp = {};
 
@@ -55,11 +51,11 @@ var _base = {
         var htmlDir = path.join(baseVersionDir, 'html');
         var imgDir = path.join(baseVersionDir, 'img');
 
-        var jsFiles = _.getFiles(jsDir, 'js', false, true); //_log.d("JSFILES   --> "+JSON.stringify(jsFiles));
-        var cssFilesLarge = _.getFiles(cssDir, 'css', 'small', false); //_log.d("CSSLARGE  --> "+JSON.stringify(cssFilesLarge));
-        var cssFilesSmall = _.getFiles(cssDir, 'css', 'large', false); //_log.d("CSSSMALL  --> "+JSON.stringify(cssFilesSmall));
-        var htmlFiles = _.getFiles(htmlDir, 'html', false, false); //_log.d("HTMLFILES --> "+JSON.stringify(htmlFiles));
-        var imgFiles = _.getFiles(imgDir, ['jpg', 'png', 'svg'], false, false); //_log.d("HTMLFILES --> "+JSON.stringify(htmlFiles));
+        var jsFiles = _.getFiles(jsDir, 'js', false, true); //atajo.log.d("JSFILES   --> "+JSON.stringify(jsFiles));
+        var cssFilesLarge = _.getFiles(cssDir, 'css', 'small', false); //atajo.log.d("CSSLARGE  --> "+JSON.stringify(cssFilesLarge));
+        var cssFilesSmall = _.getFiles(cssDir, 'css', 'large', false); //atajo.log.d("CSSSMALL  --> "+JSON.stringify(cssFilesSmall));
+        var htmlFiles = _.getFiles(htmlDir, 'html', false, false); //atajo.log.d("HTMLFILES --> "+JSON.stringify(htmlFiles));
+        var imgFiles = _.getFiles(imgDir, ['jpg', 'png', 'svg'], false, false); //atajo.log.d("HTMLFILES --> "+JSON.stringify(htmlFiles));
 
 
         _.packageFiles(jsFiles, 'js', version.DEBUG ? 'no-compress' : 'gcc', version.BASEVERSION, function(clear) {
@@ -93,7 +89,7 @@ var _base = {
             version.BASEVERSION = '1.0';
         }
 
-        //_log.d("HASHING PACKAGE VERSION "+version.BASEVERSION);
+        //atajo.log.d("HASHING PACKAGE VERSION "+version.BASEVERSION);
 
         try {
 
@@ -111,7 +107,7 @@ var _base = {
 
 
         } catch (e) {
-            _log.e("COULD NOT PROCESS " + baseDir + " [ " + e + " ]");
+            atajo.log.e("COULD NOT PROCESS " + baseDir + " [ " + e + " ]");
             return false;
         }
 
@@ -134,16 +130,16 @@ var _base = {
         	 //DEPRECATED --> FRAMEWORKS INSTALLED ON DEVICE / SERVED BY CORE
 					
         	 var fW = path.join(__dirname, '../', 'frameworks', _.FRAMEWORK, ext);
-        	 //_log.d("FW IS "+fW);
+        	 //atajo.log.d("FW IS "+fW);
         	 if( fs.existsSync(fW) )
         	 {
-        			_log.d("ADDING FRAMEWORK FILES");
+        			atajo.log.d("ADDING FRAMEWORK FILES");
         			var fWFiles = fs.readdirSync(fW);
         			for(var f in fWFiles)
         			{
         				 var file = fWFiles[f];
         				 if(file == '.DS_Store') continue;
-        				 //_log.d("ADDING "+file);
+        				 //atajo.log.d("ADDING "+file);
         				 _files.push(path.join(fW, file));
         			}
 
@@ -156,7 +152,7 @@ var _base = {
         try {
             files = fs.readdirSync(dir);
         } catch (e) {
-            _log.d("DIR NOT FOUND " + dir);
+            atajo.log.d("DIR NOT FOUND " + dir);
             return [];
 
         }
@@ -231,16 +227,16 @@ var _base = {
     packageFiles: function(files, ext, type, vers, cb) {
         var _ = this;
 
-        //	_log.d("PACKAGING "+vers+" / "+ext+" / "+type);
+        //	atajo.log.d("PACKAGING "+vers+" / "+ext+" / "+type);
 
         new compressor.minify({
             type: type,
             fileIn: files,
             fileOut: path.join(__dirname, '../', 'build', '/base-' + vers + '.' + ext),
             callback: function(err, min) {
-                //  _log.d("DONE PACKAGING "+vers+" / "+ext+" / "+type);
+                //  atajo.log.d("DONE PACKAGING "+vers+" / "+ext+" / "+type);
                 if (err) {
-                    _log.e("COULD NOT PACKAGE " + type.toUpperCase() + " (NOT UPLOADING TO CORE) : " + err);
+                    atajo.log.e("COULD NOT PACKAGE " + type.toUpperCase() + " (NOT UPLOADING TO CORE) : " + err);
                     cb(false);
                 } else {
                     cb(true);
@@ -263,13 +259,13 @@ var _base = {
             var img = files[i];
 
 
-            var imgPath = path.relative(_.BASE_DIR, img); 
+            var imgPath = path.relative(_.BASE_DIR, img);
 
-            //_log.d("PROCESSING ("+_.BASE_DIR+") - "+imgPath+" / "+img);
+            //atajo.log.d("PROCESSING ("+_.BASE_DIR+") - "+imgPath+" / "+img);
 
 
             var nam = path.basename(img);
-            
+
             var valid = false;
             for (var e in ext) {
                 if (nam.indexOf('.' + ext[e]) > -1) {
@@ -279,7 +275,7 @@ var _base = {
             }
 
             if (!valid) {
-                _log.i('IMAGE ' + nam + ' NOT A VALID IMAGE. CONTINUING');
+                atajo.log.i('IMAGE ' + nam + ' NOT A VALID IMAGE. CONTINUING');
                 continue;
             }
 
@@ -289,7 +285,7 @@ var _base = {
                 name: nam,
                 data: new Buffer(img).toString('base64'),
                 ext: valid,
-                path: imgPath.replace(nam, '').replace(/\\/g,'/') //replace any windows style slashes '\\' with unix style slashes '/'
+                path: imgPath.replace(nam, '').replace(/\\/g, '/') //replace any windows style slashes '\\' with unix style slashes '/'
             });
 
             //console.log(images[nam]);  
@@ -307,7 +303,7 @@ var _base = {
     hashDir: function(dir) {
         var _ = this;
 
-        //	_log.d("HASHING DIR "+dir);
+        //	atajo.log.d("HASHING DIR "+dir);
         var check = '';
         var files = fs.readdirSync(dir); //FP -> Remove var;
 
@@ -317,7 +313,7 @@ var _base = {
             if (file == '.DS_Store' || typeof file == 'undefined') {
                 continue;
             }
-            //_log.d("FILE IS "+file);
+            //atajo.log.d("FILE IS "+file);
             if (fs.statSync(path.join(dir, file)).isDirectory()) {
                 check += _.hashDir(path.join(dir, file));
             } else {
@@ -337,6 +333,3 @@ var _base = {
 
 
 };
-
-
-module.exports = _base;

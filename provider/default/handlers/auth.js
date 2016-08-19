@@ -1,35 +1,18 @@
-//var community = require('../adapters/community/adapter');
-var _log = require('../provider/lib/log');
+require('../provider/lib/atajo.fork').init({
 
 
-exports.req = function (obj, cb) {
+    req: function(obj, cb, dbi, api) {
+
+		//DO CREDENTIAL VALIDATION ON obj.credentials
+		atajo.log.d("CREDENTIALS ARE : "+JSON.stringify(obj.credentials)); 
 
 
-	   obj.RESPONSE = '12345abcdef';
-		 cb(obj);
-		 return;
+        obj.RESPONSE = 'AUTH_TOKEN';
+        cb(obj);
 
-/*
-		community.loginToken(obj.credentials.username, obj.credentials.password, function(token, response) {
 
-				if (token) {
+    }
 
-						obj.RESPONSE = token;
-						obj.ROLES    = response.details.roles;
 
-						//cb(token, response.details);
 
-				} else {
-
-					obj.RESPONSE = false;
-					obj.ROLES    = [];
-
-					//  cb(token);
-
-				}
-
-				cb(obj);
-
-		});
-*/
-}
+});
